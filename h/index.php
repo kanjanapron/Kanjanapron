@@ -1,5 +1,7 @@
 <?php
 session_start();
+// ย้ายมาไว้ตรงนี้เพื่อให้ $conn ไม่เป็น null
+include_once("c.php"); 
 ?>
 <!doctype html>
 <html lang="th">
@@ -34,7 +36,7 @@ session_start();
         }
         .form-control:focus {
             border-color: #f06292;
-            box-shadow: 0 0 0 0.25 margin-top: 1rem;rem rgba(240, 98, 146, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(240, 98, 146, 0.25);
         }
         .text-pink { color: #d81b60; }
     </style>
@@ -48,7 +50,7 @@ session_start();
             <div class="card login-card p-4">
                 <div class="card-body">
                     <h3 class="text-center mb-4 text-pink fw-bold">เข้าสู่ระบบหลังบ้าน</h3>
-                    <p class="text-center text-muted mb-4 small">พิชญาณัฏฐ์ รินทร์วงค์</p>
+                    <p class="text-center text-muted mb-4 small">กาญจนาภรณ์ วินทะไชย</p>
                     
                     <form method="post" action="">
                         <div class="mb-3">
@@ -66,29 +68,30 @@ session_start();
 
                     <?php
                     if(isset($_POST['Submit'])) {
-                        include_once("connectdb.php");
-                        
                         $user = $_POST['auser'];
                         $pwd = $_POST['apwd'];
 
-                        // 1. ใช้ Prepared Statement เพื่อป้องกัน SQL Injection
-                        $stmt = mysqli_prepare($conn, "SELECT a_id, a_name, a_password FROM admin WHERE a_username = ? LIMIT 1");
-                        mysqli_stmt_bind_param($stmt, "s", $user);
-                        mysqli_stmt_execute($stmt);
-                        $result = mysqli_stmt_get_result($stmt);
-                        
-                        if($data = mysqli_fetch_array($result)){
-                            // 2. ตรวจสอบรหัสผ่านที่เข้ารหัสไว้ (Password Hashing)
-                            if(password_verify($pwd, $data['a_password'])) {
-                                $_SESSION['aid'] = $data['a_id'];
-                                $_SESSION['aname'] = $data['a_name'];
-                                
-                                echo "<script>window.location='index2.php';</script>";
+                        if ($conn) {
+                            // ใช้ Prepared Statement ป้องกัน SQL Injection
+                            $stmt = mysqli_prepare($conn, "SELECT a_id, a_name, a_password FROM admin WHERE a_username = ? LIMIT 1");
+                            mysqli_stmt_bind_param($stmt, "s", $user);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+                            
+                            if($data = mysqli_fetch_array($result)){
+                                // ตรวจสอบรหัสผ่าน (รองรับทั้งแบบธรรมดาและแบบ Hash เพื่อความสะดวกในการทดสอบช่วงแรก)
+                                if(password_verify($pwd, $data['a_password']) || $pwd === $data['a_password']) {
+                                    $_SESSION['aid'] = $data['a_id'];
+                                    $_SESSION['aname'] = $data['a_name'];
+                                    echo "<script>window.location='index2.php';</script>";
+                                } else {
+                                    echo "<div class='alert alert-danger mt-3 text-center small'>รหัสผ่านไม่ถูกต้อง</div>";
+                                }
                             } else {
-                                echo "<div class='alert alert-danger mt-3 text-center small'>รหัสผ่านไม่ถูกต้อง</div>";
+                                echo "<div class='alert alert-danger mt-3 text-center small'>ไม่พบชื่อผู้ใช้งานนี้</div>";
                             }
                         } else {
-                            echo "<div class='alert alert-danger mt-3 text-center small'>ไม่พบชื่อผู้ใช้งานนี้</div>";
+                            echo "<div class='alert alert-warning mt-3 text-center small'>เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล</div>";
                         }
                     }
                     ?>
@@ -101,4 +104,3 @@ session_start();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-cdn.jsdelivr.net
