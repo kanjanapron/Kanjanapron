@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
 // ตรวจสอบสิทธิ์การเข้าใช้งาน
 if (empty($_SESSION['aid'])) {
     echo "<div style='text-align:center; margin-top:50px;'>";
