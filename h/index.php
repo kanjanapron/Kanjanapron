@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title> กาญจนาภรณ์ วินทะไชย (แตงกวา) </title>
+<title>กาญจนาภรณ์ วินทะไชย (แตงกวา)</title>
 </head>
 
 <body>
-<h1> เข้าสู่ระบบหลังบ้าน - กาญจนาภรณ์ </h1>
+<h1>เข้าสู่ระบบหลังบ้าน - กาญจนาภรณ์ </h1>
 <form method="post" action="">
 Username <input type="text" name="auser" autofocus required><br>
 Password <input type="password" name="apwd"  required><br>
