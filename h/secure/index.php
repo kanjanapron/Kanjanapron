@@ -1,8 +1,9 @@
 <?php
-session_start();
+    session_start();
 // ย้ายมาไว้ตรงนี้เพื่อให้ $conn ไม่เป็น null
-include_once("c.php"); 
+include_once("connectdb.php"); 
 ?>
+
 <!doctype html>
 <html lang="th">
 <head>
