@@ -2,12 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>กาญจนาภรณ์ วินทะไชย (แตงกวา)</title>
+<title>Untitled Document</title>
 </head>
 
 <body>
-<h1>เข้าสู่ระบบหลังบ้าน - กาญจนาภรณ์ </h1>
-
 <form method="post" action="">
 Username<input type="text" name="auser"autofocus required><br>
 Password<input type="password" name="apwd"required><br>
@@ -16,15 +14,15 @@ Password<input type="password" name="apwd"required><br>
 
 <?php
 if(isset($_POST['Submit'])){
-    include_once("connectdb.php")
-    $sql = "SELECT * FROM admin WHERE a_username='{$_POST['auser']}' AND a_pessword='{$_POST['apwd']}'LIMIT 1";
+    include_once("connectdb.php");
+    $sql = "SELECT * FROM admin WHERE a_username='{$_POST['auser']}' AND a_pessword='{$_POST['apwd']}' LIMIT 1";
     $rs = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($rs);
 
     if($num == 1){
         $data = mysqli_fetch_array($rs);
-        $_SESSION['aid'] = $data[''a_id];
-        $_SESSION['aname'] = $data[''a_name];
+        $_SESSION['aid'] = $data['a_id'];
+        $_SESSION['aname'] = $data['a_name'];
         echo"<script>";
         echo"window.location='index2.php';";
         echo"</script>";
