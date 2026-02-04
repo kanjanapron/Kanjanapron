@@ -9,10 +9,10 @@
 <h1>กาญจนาภรณ์ วินทะไชย (แตงกวา)</h1>
 
 <?php
-	echo @$_SESSION['name'] . "กาญจนาภรณ์ วินทะไชย";
-    echo @$_SESSION['nickname'] . "แตงกวา";
-    echo @$_SESSION['p1'] . "เก้าอี้";
-    echo @$_SESSION['p2'] . "น้ำ";
+	echo @$_SESSION['name'] . "<br>";
+    echo @$_SESSION['nickname'] . "<br>";
+    echo @$_SESSION['nickname'] . "<br>";
+    echo @$_SESSION['nickname'] . "<br>";
 ?>
 </body>
 </html>
