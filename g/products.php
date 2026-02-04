@@ -1,10 +1,5 @@
 <?php
-session_start();
-// ตรวจสอบว่าได้ล็อกอินหรือยัง ถ้าไม่มี Session ให้เด้งกลับไปหน้า login
-if (!isset($_SESSION['aid'])) {
-    echo "<script>window.location='index.php';</script>";
-    exit;
-}
+    include_once("check_login.php"); 
 ?>
 <!doctype html>
 <html lang="th">
@@ -15,61 +10,44 @@ if (!isset($_SESSION['aid'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            background-color: #fff5f8;
-            font-family: 'Sarabun', sans-serif;
-        }
-        .navbar {
-            background-color: #f06292 !important;
-        }
+        body { background-color: #fff5f8; font-family: 'Sarabun', sans-serif; }
+        .navbar { background-color: #f06292 !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .card-menu {
-            border: none;
-            border-radius: 15px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: #444;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: none; border-radius: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none; color: #444;
+            background: white;
         }
         .card-menu:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(240, 98, 146, 0.2);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(240, 98, 146, 0.15);
             color: #d81b60;
         }
         .icon-box {
-            width: 60px;
-            height: 60px;
-            background-color: #fce4ec;
-            color: #f06292;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 15px;
+            width: 70px; height: 70px;
+            background-color: #fce4ec; color: #f06292;
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 30px; margin: 0 auto 20px;
         }
-        .logout-btn {
-            color: white !important;
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 20px;
-        }
-        .logout-btn:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
+        .text-pink-bold { color: #d81b60; font-weight: 700; }
+        .logout-btn { border: 1px solid rgba(255,255,255,0.6); border-radius: 50px; transition: 0.3s; }
+        .logout-btn:hover { background: white; color: #f06292 !important; }
     </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark mb-4 shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark mb-5">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">Admin Panel</a>
+        <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-lock-fill me-2"></i>Admin Panel</a>
         <div class="ms-auto d-flex align-items-center">
             <span class="text-white me-3 d-none d-sm-inline">
-                <i class="bi bi-person-circle me-1"></i> 
-                สวัสดี, <?php echo htmlspecialchars($_SESSION['aname']); ?>
+                สวัสดี, <strong><?php echo html_escape($_SESSION['aname']); ?></strong>
             </span>
-            <a href="logout.php" class="btn btn-sm logout-btn" onclick="return confirm('ยืนยันการออกจากระบบ?')">
+            <a href="logout.php" class="btn btn-sm logout-btn text-white" onclick="return confirm('คุณต้องการออกจากระบบใช่หรือไม่?')">
                 <i class="bi bi-box-arrow-right me-1"></i> ออกจากระบบ
             </a>
         </div>
@@ -77,45 +55,43 @@ if (!isset($_SESSION['aid'])) {
 </nav>
 
 <div class="container">
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h2 class="fw-bold text-pink" style="color: #d81b60;">จัดการระบบร้านค้า - กาญจนาภรณ์</h2>
-            <p class="text-muted">ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลหลังบ้าน</p>
-            <hr class="mx-auto" style="width: 50px; border-top: 3px solid #f06292;">
-        </div>
+    <div class="text-center mb-5">
+        <h2 class="text-pink-bold">ระบบจัดการร้านค้าออนไลน์</h2>
+        <p class="text-muted small text-uppercase fw-bold" style="letter-spacing: 2px;">Kanjanapron Backend Management</p>
+        <div class="mx-auto" style="width: 60px; height: 4px; background: #f06292; border-radius: 2px;"></div>
     </div>
 
     <div class="row g-4 justify-content-center">
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a href="products.php" class="card card-menu h-100 p-4 text-center">
-                <div class="icon-box mx-auto">
-                    <i class="bi bi-box-seam-fill"></i>
-                </div>
-                <h5 class="fw-bold mb-0">จัดการสินค้า</h5>
+                <div class="icon-box"><i class="bi bi-box-seam-fill"></i></div>
+                <h5 class="fw-bold">จัดการสินค้า</h5>
+                <span class="small text-muted">สต็อกและรายละเอียด</span>
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a href="orders.php" class="card card-menu h-100 p-4 text-center">
-                <div class="icon-box mx-auto">
-                    <i class="bi bi-cart-check-fill"></i>
-                </div>
-                <h5 class="fw-bold mb-0">จัดการออเดอร์</h5>
+                <div class="icon-box"><i class="bi bi-cart-check-fill"></i></div>
+                <h5 class="fw-bold">จัดการออเดอร์</h5>
+                <span class="small text-muted">รายการสั่งซื้อลูกค้า</span>
             </a>
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a href="costomers.php" class="card card-menu h-100 p-4 text-center">
-                <div class="icon-box mx-auto">
-                    <i class="bi bi-people-fill"></i>
-                </div>
-                <h5 class="fw-bold mb-0">จัดการลูกค้า</h5>
+                <div class="icon-box"><i class="bi bi-people-fill"></i></div>
+                <h5 class="fw-bold">จัดการลูกค้า</h5>
+                <span class="small text-muted">ข้อมูลสมาชิก</span>
             </a>
         </div>
     </div>
+
+    <footer class="text-center mt-5 pt-5 text-muted small">
+        <p>© 2026 Kanjanapron Wintachai. Built with <i class="bi bi-heart-fill text-danger"></i> & Bootstrap 5.3</p>
+    </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-cdn.jsdelivr.net
