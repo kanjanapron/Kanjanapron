@@ -37,11 +37,13 @@ $rs = mysqli_query($conn,$sql);
 
 while ($data = mysqli_fetch_array($rs)){
 ?>
-    <tr>
-        <td><?php echo $data['r_id']; ?></td>
-        <td><?php echo $data['r_name']; ?></td>
-        <td width="80" align="center"><a href ="delete_regions.php?id=<?php echo$data['r_id'];?>"onClick="return confirm('ยืนยันการลบข้อมูลไหม?');"><img src="1.png" width="20">
-        </td>
+    <tr><td width="80" align="center">
+    <a href="delete_regions.php?id=<?php echo $data['r_id'];?>"
+       onClick="return confirm('ยืนยันการลบข้อมูลไหม?');">
+       <img src="img/1.png" width="20">
+    </a>
+</td>
+
     </tr>
 <?php } ?>
 
